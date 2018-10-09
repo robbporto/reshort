@@ -4,7 +4,7 @@
 [![NPM version](https://img.shields.io/npm/v/reshort.svg?style=flat-square)](https://npmjs.org/package/reshort)
 [![Build Status](https://img.shields.io/travis/robbporto/reshort/master.svg?style=flat-square)](https://travis-ci.org/robbporto/reshort) [![Coverage Status](https://img.shields.io/codecov/c/github/robbporto/reshort/master.svg?style=flat-square)](https://codecov.io/gh/robbporto/reshort/branch/master)
 
-Sometimes we write too much repetion in our actions.
+Sometimes we write too much repetition in our actions.
 
 Like so:
 
