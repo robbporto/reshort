@@ -38,7 +38,7 @@ export const fetchUsersFailure = error => ({
 })
 ```
 
-This library tries to remove this repetion encapsulating common actions in an action generator.
+This library tries to remove this repetition encapsulating common actions in an action generator.
 
 ## Install
 
