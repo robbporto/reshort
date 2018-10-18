@@ -1,13 +1,21 @@
-# reshort
+<br/>
+<p align="center">
+  <img src="https://i.imgur.com/ItRWLd2.png" width="250" />
+</p>
 
-[![Generated with nod](https://img.shields.io/badge/generator-nod-2196F3.svg?style=flat-square)](https://github.com/diegohaz/nod)
-[![NPM version](https://img.shields.io/npm/v/reshort.svg?style=flat-square)](https://npmjs.org/package/reshort)
-[![Build Status](https://img.shields.io/travis/robbporto/reshort/master.svg?style=flat-square)](https://travis-ci.org/robbporto/reshort) [![Coverage Status](https://img.shields.io/codecov/c/github/robbporto/reshort/master.svg?style=flat-square)](https://codecov.io/gh/robbporto/reshort/branch/master)
+<p align="center">
+  [![Generated with nod](https://img.shields.io/badge/generator-nod-2196F3.svg?style=flat-square)](https://github.com/diegohaz/nod) [![NPM version](https://img.shields.io/npm/v/reshort.svg?style=flat-square)](https://npmjs.org/package/reshort) [![Build Status](https://img.shields.io/travis/robbporto/reshort/master.svg?style=flat-square)](https://travis-ci.org/robbporto/reshort) [![Coverage Status](https://img.shields.io/codecov/c/github/robbporto/reshort/master.svg?style=flat-square)](https://codecov.io/gh/robbporto/reshort/branch/master)
+</p>
+
+<p align="center">
+  <img src="https://i.imgur.com/2SUaL34.png"/>
+</p>
+
+## Why?
 
 Sometimes we write too much repetition in our action creators.
 
-Like so:
-
+For example:
 ```js
 export const fetchProducts = () => ({
   type: FETCH_PRODUCTS
@@ -38,14 +46,22 @@ export const fetchUsersFailure = error => ({
 })
 ```
 
-This library tries to remove this repetition encapsulating common actions in an action generator.
+You can see that we are repeating the same patterns in all our actions!
 
-## Install
+This library tries to remove this repetition encapsulating common actions in an action generator, like so:
 
-    $ npm install --save reshort
+```js
+import reshort from "reshort";
 
-## Usage
+const productsActions = reshort("Products");
+const usersActions = reshort("Users");
+```
 
+## Install and usage
+
+Install using your package manager:
+`npm install --save reshort`
+Then you can create your action creators in one line and use them after!
 ```js
 import reshort from "reshort";
 
