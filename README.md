@@ -3,8 +3,10 @@
   <img src="https://i.imgur.com/ItRWLd2.png" width="250" />
 </p>
 
+<br/>
 <p align="center">
-  [![Generated with nod](https://img.shields.io/badge/generator-nod-2196F3.svg?style=flat-square)](https://github.com/diegohaz/nod) [![NPM version](https://img.shields.io/npm/v/reshort.svg?style=flat-square)](https://npmjs.org/package/reshort) [![Build Status](https://img.shields.io/travis/robbporto/reshort/master.svg?style=flat-square)](https://travis-ci.org/robbporto/reshort) [![Coverage Status](https://img.shields.io/codecov/c/github/robbporto/reshort/master.svg?style=flat-square)](https://codecov.io/gh/robbporto/reshort/branch/master)
+<a href="https://github.com/diegohaz/nod" target="_blank"><img src="https://img.shields.io/badge/generator-nod-2196F3.svg?style=flat-square" /></a>
+<a href="https://npmjs.org/package/reshort" target="_blank"><img src="https://img.shields.io/npm/v/reshort.svg?style=flat-square" /></a>
 </p>
 
 <p align="center">
