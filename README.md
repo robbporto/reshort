@@ -5,8 +5,10 @@
 
 <br/>
 <p align="center">
-<a href="https://github.com/diegohaz/nod" target="_blank"><img src="https://img.shields.io/badge/generator-nod-2196F3.svg?style=flat-square" /></a>
-<a href="https://npmjs.org/package/reshort" target="_blank"><img src="https://img.shields.io/npm/v/reshort.svg?style=flat-square" /></a>
+<a href="https://github.com/diegohaz/nod"><img src="https://img.shields.io/badge/generator-nod-2196F3.svg?style=flat-square" /></a>
+<a href="https://npmjs.org/package/reshort"><img src="https://img.shields.io/npm/v/reshort.svg?style=flat-square" /></a>
+<a href="https://travis-ci.org/robbporto/reshort"><img src="https://img.shields.io/travis/robbporto/reshort/master.svg?style=flat-square" /></a>
+<a href="https://codecov.io/gh/robbporto/reshort/branch/master"><img src="https://img.shields.io/codecov/c/github/robbporto/reshort/master.svg?style=flat-square" /></a>
 </p>
 
 <p align="center">
