@@ -37,7 +37,7 @@ describe("makeCompleteAction", () => {
     });
   });
 
-  describe("normal flux", () => {
+  describe("normal flow", () => {
     it("should return a request action", () => {
       const action = makeCompleteAction("Products");
 
@@ -86,6 +86,78 @@ describe("makeCompleteAction", () => {
       expect(action("fail", { test: 123 })).toEqual({
         type: "GET_PRODUCTS_FAILURE",
         payload: { test: 123 }
+      });
+    });
+
+    it("should return a request action with the correct custom prefix", () => {
+      const action = makeCompleteAction("Products", {
+        prefix: "FETCH"
+      });
+
+      expect(action("request")).toEqual({
+        type: "FETCH_PRODUCTS"
+      });
+    });
+
+    it("should return a success action with the correct custom prefix", () => {
+      const action = makeCompleteAction("Products", {
+        prefix: "FETCH"
+      });
+
+      expect(action("success")).toEqual({
+        type: "FETCH_PRODUCTS_SUCCESSFUL"
+      });
+    });
+
+    it("should return a success action with the correct custom prefix and suffix", () => {
+      const action = makeCompleteAction("Products", {
+        prefix: "FETCH",
+        successSuffix: "WITH_SUCCESS"
+      });
+
+      expect(action("success")).toEqual({
+        type: "FETCH_PRODUCTS_WITH_SUCCESS"
+      });
+    });
+
+    it("should return a request action with the correct custom suffix", () => {
+      const action = makeCompleteAction("Products", {
+        successSuffix: "WITH_SUCCESS"
+      });
+
+      expect(action("success")).toEqual({
+        type: "GET_PRODUCTS_WITH_SUCCESS"
+      });
+    });
+
+    it("should return a error action with the correct custom prefix", () => {
+      const action = makeCompleteAction("Products", {
+        prefix: "FETCH"
+      });
+
+      expect(action("fail")).toEqual({
+        type: "FETCH_PRODUCTS_FAILURE"
+      });
+    });
+
+    it("should return a error action with the correct custom prefix and suffix", () => {
+      const action = makeCompleteAction("Products", {
+        prefix: "FETCH",
+        failSuffix: "REJECTED"
+      });
+
+      expect(action("fail")).toEqual({
+        type: "FETCH_PRODUCTS_REJECTED"
+      });
+    });
+
+    it("should return a error action with the correct custom SUFFIX", () => {
+      const action = makeCompleteAction("Products", {
+        failSuffix: "REJECTED"
+      });
+
+      expect(action("fail")).toEqual({
+        type: "GET_PRODUCTS_REJECTED"
       });
     });
   });

@@ -1,16 +1,66 @@
 import { upperCase, isEmpty } from "lodash";
 
-const mountConstant = (name, type) => {
+const hasPrefixOrSuffix = (options, property) =>
+  !!(options && options[property]) && options[property];
+
+const mountRequestConstant = (name, options) => {
+  if (hasPrefixOrSuffix(options, "prefix")) {
+    const { prefix } = options;
+
+    return `${prefix}_${upperCase(name)}`;
+  }
+
+  return `GET_${upperCase(name)}`;
+};
+
+const mountSuccessOrFailureConstants = (name, options, suffix, constant) => {
+  if (
+    hasPrefixOrSuffix(options, "prefix") &&
+    !hasPrefixOrSuffix(options, suffix)
+  ) {
+    const { prefix } = options;
+
+    return `${prefix}_${upperCase(name)}_${constant}`;
+  }
+
+  if (
+    hasPrefixOrSuffix(options, "prefix") &&
+    hasPrefixOrSuffix(options, suffix)
+  ) {
+    const { prefix } = options;
+    const optionsSuffix = options[suffix];
+
+    return `${prefix}_${upperCase(name)}_${optionsSuffix}`;
+  }
+
+  if (
+    !hasPrefixOrSuffix(options, "prefix") &&
+    hasPrefixOrSuffix(options, suffix)
+  ) {
+    const optionsSuffix = options[suffix];
+
+    return `GET_${upperCase(name)}_${optionsSuffix}`;
+  }
+
+  return `GET_${upperCase(name)}_${constant}`;
+};
+
+const mountConstant = (name, type, options) => {
   const typesOfConstants = {
-    request: `GET_${upperCase(name)}`,
-    success: `GET_${upperCase(name)}_SUCCESSFUL`,
-    fail: `GET_${upperCase(name)}_FAILURE`
+    request: mountRequestConstant(name, options),
+    success: mountSuccessOrFailureConstants(
+      name,
+      options,
+      "successSuffix",
+      "SUCCESSFUL"
+    ),
+    fail: mountSuccessOrFailureConstants(name, options, "failSuffix", "FAILURE")
   };
 
   return typesOfConstants[type];
 };
 
-const mountRequest = name => (requestType, payload) => {
+const mountRequest = (name, options) => (requestType, payload) => {
   if (isEmpty(requestType)) {
     throw new Error("You should define your request type.");
   }
@@ -20,15 +70,15 @@ const mountRequest = name => (requestType, payload) => {
 
   const typesOfActions = {
     request: () => ({
-      type: mountConstant(name, "request"),
+      type: mountConstant(name, "request", options),
       payload
     }),
     success: () => ({
-      type: mountConstant(name, "success"),
+      type: mountConstant(name, "success", options),
       payload
     }),
     fail: () => ({
-      type: mountConstant(name, "fail"),
+      type: mountConstant(name, "fail", options),
       payload
     })
   };
@@ -42,8 +92,9 @@ const makeCompleteAction = (name, options) => {
   if (typeof name !== "string")
     throw new Error("The action name should be a string.");
 
-  if (!isEmpty(options) && typeof name !== "object")
+  if (!isEmpty(options) && typeof options !== "object")
     throw new Error("The options should be an object.");
+
   return mountRequest(name, options);
 };
 
