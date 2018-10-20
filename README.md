@@ -93,7 +93,7 @@ productsActions("fail", {test: "error"})
 
 ## Options
 
-#### prefix (String: "GET")
+#### prefix (String = "GET")
 Add the defined prefix to the constants of the three actions.
 ```js
 const productsActions = reshort("Products", {
@@ -118,7 +118,7 @@ productsActions("fail", {test: "error"})
 // }
 ```
 
-#### successSuffix (String: "SUCCESSFUL")
+#### successSuffix (String = "SUCCESSFUL")
 Add the defined suffix to the constant of the "success" action.
 ```js
 const productsActions = reshort("Products", {
@@ -132,11 +132,11 @@ productsActions("success", {test: 123})
 // }
 ```
 
-#### failSuffix (String: "FAILURE")
+#### failSuffix (String = "FAILURE")
 Add the defined suffix to the constant of the "error" action.
 ```js
 const productsActions = reshort("Products", {
-  prefix: "REJECTED"
+  failSuffix: "REJECTED"
 });
 
 productsActions("fail", {test: "error"})
