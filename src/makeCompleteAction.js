@@ -117,11 +117,6 @@ const mountRequest = (name, options) => (requestType, payload) => {
     }
   };
 
-  if (options && options.customPayload) {
-    typesOfActions.request = Object.assign(typesOfActions.request, payload);
-    typesOfActions.request = Object.assign(typesOfActions.request, payload);
-  }
-
   return typesOfActions[requestType]();
 };
 
