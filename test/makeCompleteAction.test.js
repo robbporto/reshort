@@ -161,4 +161,84 @@ describe("makeCompleteAction", () => {
       });
     });
   });
+
+  describe("with customSuccessPayload option", () => {
+    const customSuccessPayload = payload => payload;
+
+    it("should return a request action with a custom payload", () => {
+      const action = makeCompleteAction("Products", {
+        customSuccessPayload
+      });
+
+      expect(action("request", { test: 123 })).toEqual({
+        type: "GET_PRODUCTS",
+        test: 123
+      });
+    });
+
+    it("should return a success action with a custom payload", () => {
+      const action = makeCompleteAction("Products", {
+        customSuccessPayload,
+        payload: { test: 123 }
+      });
+
+      expect(action("success", { test: 123 })).toEqual({
+        type: "GET_PRODUCTS_SUCCESSFUL",
+        test: 123
+      });
+    });
+
+    it("should return a fail action with a regular payload", () => {
+      const action = makeCompleteAction("products", {
+        customSuccessPayload,
+        payload: { test: 123 }
+      });
+
+      expect(action("fail", { test: 123 })).toEqual({
+        type: "GET_PRODUCTS_FAILURE",
+        payload: {
+          test: 123
+        }
+      });
+    });
+  });
+
+  describe("with customFailurePayload option", () => {
+    const customFailurePayload = payload => payload;
+
+    it("should return a request action with a regular payload", () => {
+      const action = makeCompleteAction("Products", {
+        customFailurePayload,
+        payload: { test: 123 }
+      });
+
+      expect(action("request")).toEqual({ type: "GET_PRODUCTS" });
+    });
+
+    it("should return a success action with a regular payload", () => {
+      const action = makeCompleteAction("Products", {
+        customFailurePayload,
+        payload: { test: 123 }
+      });
+
+      expect(action("success", { test: 123 })).toEqual({
+        type: "GET_PRODUCTS_SUCCESSFUL",
+        payload: {
+          test: 123
+        }
+      });
+    });
+
+    it("should return a fail action with a regular payload", () => {
+      const action = makeCompleteAction("products", {
+        customFailurePayload,
+        payload: { test: 123 }
+      });
+
+      expect(action("fail", { test: 123 })).toEqual({
+        type: "GET_PRODUCTS_FAILURE",
+        test: 123
+      });
+    });
+  });
 });

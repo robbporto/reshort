@@ -69,19 +69,58 @@ const mountRequest = (name, options) => (requestType, payload) => {
     throw new Error("The request type name should be a string.");
 
   const typesOfActions = {
-    request: () => ({
-      type: mountConstant(name, "request", options),
-      payload
-    }),
-    success: () => ({
-      type: mountConstant(name, "success", options),
-      payload
-    }),
-    fail: () => ({
-      type: mountConstant(name, "fail", options),
-      payload
-    })
+    request: () => {
+      if (options && options.customSuccessPayload) {
+        return Object.assign(
+          {
+            type: mountConstant(name, "request", options)
+          },
+          payload
+        );
+      }
+
+      return {
+        type: mountConstant(name, "request", options),
+        payload
+      };
+    },
+
+    success: () => {
+      if (options && options.customSuccessPayload) {
+        return Object.assign(
+          {
+            type: mountConstant(name, "success", options)
+          },
+          payload
+        );
+      }
+
+      return {
+        type: mountConstant(name, "success", options),
+        payload
+      };
+    },
+
+    fail: () => {
+      if (options && options.customFailurePayload) {
+        return Object.assign(
+          {
+            type: mountConstant(name, "fail", options)
+          },
+          payload
+        );
+      }
+      return {
+        type: mountConstant(name, "fail", options),
+        payload
+      };
+    }
   };
+
+  if (options && options.customPayload) {
+    typesOfActions.request = Object.assign(typesOfActions.request, payload);
+    typesOfActions.request = Object.assign(typesOfActions.request, payload);
+  }
 
   return typesOfActions[requestType]();
 };
