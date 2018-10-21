@@ -145,6 +145,33 @@ productsActions("fail", {test: "error"})
 //   payload: { test: "error" }
 // }
 ```
+#### customSuccessPayload (Function, recieves payload)
+Applies a custom payload directly onto successful actions.
+Useful if you want to remove the payload variable name around your payload,
+or if you want to do some last minute tweaks to your payload.
+```
+const productsActions = reshort("Products", {
+  customSuccessPayload: (payload) => payload
+});
+// {
+//    type: "GET_PRODUCTS_SUCCESS",
+//    test: 123
+// }
+```
+
+#### customFailurePayload (Function, recieves payload)
+Applies a custom payload directly onto the fail action.
+Useful if you want to remove the payload variable name around your payload,
+or if you want to do some last minute tweaks to your payload.
+```
+const productsActions = reshort("Products", {
+  customFailurePayload: (payload) => payload
+});
+// {
+//    type: "GET_PRODUCTS_FAILURE",
+//    test: 123
+// }
+```
 
 ## License
 
