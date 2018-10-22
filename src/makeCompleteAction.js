@@ -1,48 +1,27 @@
 import { upperCase, isEmpty } from "lodash";
 
-const hasPrefixOrSuffix = (options, property) =>
+const hasProperty = (options, property) =>
   !!(options && options[property]) && options[property];
 
 const mountRequestConstant = (name, options) => {
-  if (hasPrefixOrSuffix(options, "prefix")) {
-    const { prefix } = options;
+  const namespace = hasProperty(options, "namespace")
+    ? `${options.namespace}/`
+    : "";
+  const prefix = hasProperty(options, "prefix") ? `${options.prefix}_` : "GET_";
 
-    return `${prefix}_${upperCase(name)}`;
-  }
-
-  return `GET_${upperCase(name)}`;
+  return `${namespace}${prefix}${upperCase(name)}`;
 };
 
 const mountSuccessOrFailureConstants = (name, options, suffix, constant) => {
-  if (
-    hasPrefixOrSuffix(options, "prefix") &&
-    !hasPrefixOrSuffix(options, suffix)
-  ) {
-    const { prefix } = options;
+  const namespace = hasProperty(options, "namespace")
+    ? `${options.namespace}/`
+    : "";
+  const prefix = hasProperty(options, "prefix") ? `${options.prefix}_` : "GET_";
+  const optionSuffix = hasProperty(options, suffix)
+    ? `_${options[suffix]}`
+    : `_${constant}`;
 
-    return `${prefix}_${upperCase(name)}_${constant}`;
-  }
-
-  if (
-    hasPrefixOrSuffix(options, "prefix") &&
-    hasPrefixOrSuffix(options, suffix)
-  ) {
-    const { prefix } = options;
-    const optionsSuffix = options[suffix];
-
-    return `${prefix}_${upperCase(name)}_${optionsSuffix}`;
-  }
-
-  if (
-    !hasPrefixOrSuffix(options, "prefix") &&
-    hasPrefixOrSuffix(options, suffix)
-  ) {
-    const optionsSuffix = options[suffix];
-
-    return `GET_${upperCase(name)}_${optionsSuffix}`;
-  }
-
-  return `GET_${upperCase(name)}_${constant}`;
+  return `${namespace}${prefix}${upperCase(name)}${optionSuffix}`;
 };
 
 const mountConstant = (name, type, options) => {

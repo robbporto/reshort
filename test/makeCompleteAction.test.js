@@ -160,5 +160,15 @@ describe("makeCompleteAction", () => {
         type: "GET_PRODUCTS_REJECTED"
       });
     });
+
+    it("should return a action with NAMESPACE", () => {
+      const action = makeCompleteAction("Items", {
+        namespace: "PRODUCTS"
+      });
+
+      expect(action("request")).toEqual({
+        type: "PRODUCTS/GET_ITEMS"
+      });
+    });
   });
 });
