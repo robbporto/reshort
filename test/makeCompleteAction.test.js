@@ -161,4 +161,181 @@ describe("makeCompleteAction", () => {
       });
     });
   });
+
+  describe("with custom payload options", () => {
+    const customPayload = payload => payload;
+
+    describe("when given a customRequestPayload option", () => {
+      it("should throw an error if the customRequestPayload is not a function", () => {
+        const action = makeCompleteAction("products", {
+          customRequestPayload: "not a function"
+        });
+
+        expect(() => action("request", { test: 123 })).toThrow(
+          "options.customRequestPayload should be a function."
+        );
+      });
+
+      it("should return a request action with a custom payload", () => {
+        const action = makeCompleteAction("Products", {
+          customRequestPayload: customPayload
+        });
+
+        expect(action("request", { test: 123 })).toEqual({
+          type: "GET_PRODUCTS",
+          test: 123
+        });
+      });
+
+      it("should return a default payload for the success action", () => {
+        const action = makeCompleteAction("Products", {
+          customRequestPayload: customPayload
+        });
+
+        expect(action("success", { test: 123 })).toEqual({
+          type: "GET_PRODUCTS_SUCCESSFUL",
+          payload: {
+            test: 123
+          }
+        });
+      });
+
+      it("should return a default payload for the failure action", () => {
+        const action = makeCompleteAction("Products", {
+          customRequestPayload: customPayload
+        });
+
+        expect(action("fail", { test: 123 })).toEqual({
+          type: "GET_PRODUCTS_FAILURE",
+          payload: {
+            test: 123
+          }
+        });
+      });
+    });
+
+    describe("when passed a customSuccessPayload", () => {
+      it("should throw an error if the customSuccessPayload is not a function", () => {
+        const action = makeCompleteAction("products", {
+          customSuccessPayload: "not a function"
+        });
+
+        expect(() => action("success", { test: 123 })).toThrow(
+          "options.customSuccessPayload should be a function."
+        );
+      });
+
+      it("should return a success action with a custom payload", () => {
+        const action = makeCompleteAction("Products", {
+          customSuccessPayload: customPayload
+        });
+
+        expect(action("success", { test: 123 })).toEqual({
+          type: "GET_PRODUCTS_SUCCESSFUL",
+          test: 123
+        });
+      });
+
+      it("should return a default payload for the request action", () => {
+        const action = makeCompleteAction("Products", {
+          customSuccessPayload: customPayload
+        });
+
+        expect(action("request", { test: 123 })).toEqual({
+          type: "GET_PRODUCTS",
+          payload: {
+            test: 123
+          }
+        });
+      });
+
+      it("should return a default payload for the failure action", () => {
+        const action = makeCompleteAction("Products", {
+          customSuccessPayload: customPayload
+        });
+
+        expect(action("fail", { test: 123 })).toEqual({
+          type: "GET_PRODUCTS_FAILURE",
+          payload: {
+            test: 123
+          }
+        });
+      });
+    });
+
+    describe("when passed a customFailurePayload option", () => {
+      it("should throw an error if the customFailurePayload is not a function", () => {
+        const action = makeCompleteAction("products", {
+          customFailurePayload: "not a function"
+        });
+
+        expect(() => action("fail", { test: 123 })).toThrow(
+          "options.customFailurePayload should be a function."
+        );
+      });
+
+      it("should return a failure action with a custom payload", () => {
+        const action = makeCompleteAction("Products", {
+          customFailurePayload: customPayload,
+          payload: { test: "error" }
+        });
+
+        expect(action("fail", { test: "error" })).toEqual({
+          type: "GET_PRODUCTS_FAILURE",
+          test: "error"
+        });
+      });
+
+      it("should return a default payload for the request action", () => {
+        const action = makeCompleteAction("Products", {
+          customFailurePayload: customPayload
+        });
+
+        expect(action("request", { test: 123 })).toEqual({
+          type: "GET_PRODUCTS",
+          payload: {
+            test: 123
+          }
+        });
+      });
+
+      it("should return a default payload for the success action", () => {
+        const action = makeCompleteAction("Products", {
+          customFailurePayload: customPayload
+        });
+
+        expect(action("success", { test: 123 })).toEqual({
+          type: "GET_PRODUCTS_SUCCESSFUL",
+          payload: {
+            test: 123
+          }
+        });
+      });
+    });
+
+    describe("when passed all three customPayload options", () => {
+      it("should return custom payloads for all request, success and failure actions", () => {
+        const action = makeCompleteAction("Products", {
+          customRequestPayload: customPayload,
+          customSuccessPayload: customPayload,
+          customFailurePayload: customPayload
+        });
+
+        expect(action("request", { test: 123 })).toEqual({
+          type: "GET_PRODUCTS",
+          test: 123
+        });
+
+        expect(action("success", { test: 123 })).toEqual({
+          type: "GET_PRODUCTS_SUCCESSFUL",
+          test: 123
+        });
+
+        expect(action("fail", { test: "error" })).toEqual({
+          type: "GET_PRODUCTS_FAILURE",
+          test: "error"
+        });
+      });
+    });
+  });
 });

@@ -16,6 +16,7 @@
   ],
   "scripts": {
     "test": "jest",
+    "test-watch": "jest --watch",
     "coverage": "npm test -- --coverage",
     "postcoverage": "opn coverage/lcov-report/index.html",
     "lint": "eslint . --fix",
