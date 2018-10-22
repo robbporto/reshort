@@ -227,8 +227,7 @@ describe("makeCompleteAction", () => {
 
       it("should return a success action with a custom payload", () => {
         const action = makeCompleteAction("Products", {
-          customSuccessPayload: customPayload,
-          payload: { test: 123 }
+          customSuccessPayload: customPayload
         });
 
         expect(action("success", { test: 123 })).toEqual({
