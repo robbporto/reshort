@@ -1,10 +1,10 @@
 import { upperCase, isEmpty } from "lodash";
 
-const hasPrefixOrSuffix = (options, property) =>
+const checkIfOptionExists = (options, property) =>
   !!(options && options[property]) && options[property];
 
 const mountRequestConstant = (name, options) => {
-  if (hasPrefixOrSuffix(options, "prefix")) {
+  if (checkIfOptionExists(options, "prefix")) {
     const { prefix } = options;
 
     return `${prefix}_${upperCase(name)}`;
@@ -15,8 +15,8 @@ const mountRequestConstant = (name, options) => {
 
 const mountSuccessOrFailureConstants = (name, options, suffix, constant) => {
   if (
-    hasPrefixOrSuffix(options, "prefix") &&
-    !hasPrefixOrSuffix(options, suffix)
+    checkIfOptionExists(options, "prefix") &&
+    !checkIfOptionExists(options, suffix)
   ) {
     const { prefix } = options;
 
@@ -24,8 +24,8 @@ const mountSuccessOrFailureConstants = (name, options, suffix, constant) => {
   }
 
   if (
-    hasPrefixOrSuffix(options, "prefix") &&
-    hasPrefixOrSuffix(options, suffix)
+    checkIfOptionExists(options, "prefix") &&
+    checkIfOptionExists(options, suffix)
   ) {
     const { prefix } = options;
     const optionsSuffix = options[suffix];
@@ -34,8 +34,8 @@ const mountSuccessOrFailureConstants = (name, options, suffix, constant) => {
   }
 
   if (
-    !hasPrefixOrSuffix(options, "prefix") &&
-    hasPrefixOrSuffix(options, suffix)
+    !checkIfOptionExists(options, "prefix") &&
+    checkIfOptionExists(options, suffix)
   ) {
     const optionsSuffix = options[suffix];
 
@@ -70,12 +70,16 @@ const mountRequest = (name, options) => (requestType, payload) => {
 
   const typesOfActions = {
     request: () => {
-      if (options && options.customSuccessPayload) {
+      if (checkIfOptionExists(options, "customRequestPayload")) {
+        if (typeof options.customRequestPayload !== "function") {
+          throw new Error("options.customRequestPayload should be a function.");
+        }
+
         return Object.assign(
           {
             type: mountConstant(name, "request", options)
           },
-          payload
+          options.customRequestPayload(payload)
         );
       }
 
@@ -86,12 +90,16 @@ const mountRequest = (name, options) => (requestType, payload) => {
     },
 
     success: () => {
-      if (options && options.customSuccessPayload) {
+      if (checkIfOptionExists(options, "customSuccessPayload")) {
+        if (typeof options.customSuccessPayload !== "function") {
+          throw new Error("options.customSuccessPayload should be a function.");
+        }
+
         return Object.assign(
           {
             type: mountConstant(name, "success", options)
           },
-          payload
+          options.customSuccessPayload(payload)
         );
       }
 
@@ -102,12 +110,16 @@ const mountRequest = (name, options) => (requestType, payload) => {
     },
 
     fail: () => {
-      if (options && options.customFailurePayload) {
+      if (checkIfOptionExists(options, "customFailurePayload")) {
+        if (typeof options.customFailurePayload !== "function") {
+          throw new Error("options.customFailurePayload should be a function.");
+        }
+
         return Object.assign(
           {
             type: mountConstant(name, "fail", options)
           },
-          payload
+          options.customFailurePayload(payload)
         );
       }
       return {
