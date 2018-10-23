@@ -145,6 +145,54 @@ productsActions("fail", {test: "error"})
 //   payload: { test: "error" }
 // }
 ```
+#### customRequestPayload (Function, receives payload)
+Applies a custom payload directly to the request action.
+Useful if you want to remove the payload variable name around your payload,
+or if you want to do some last minute tweaks to your payload.
+```js
+const productsActions = reshort("Products", {
+  customRequestPayload: payload => payload
+});
+
+productsActions("request", {test: 123});
+// {
+//    type: "GET_PRODUCTS",
+//    test: 123
+// }
+```
+
+
+#### customSuccessPayload (Function, receives payload)
+Applies a custom payload directly to the successful action.
+Useful if you want to remove the payload variable name around your payload,
+or if you want to do some last minute tweaks to your payload.
+```js
+const productsActions = reshort("Products", {
+  customSuccessPayload: (payload) => payload
+});
+
+productsActions("success", {test: 123});
+// {
+//    type: "GET_PRODUCTS_SUCCESSFUL",
+//    test: 123
+// }
+```
+
+#### customFailurePayload (Function, receives payload)
+Applies a custom payload directly onto the fail action.
+Useful if you want to remove the payload variable name around your payload,
+or if you want to do some last minute tweaks to your payload.
+```js
+const productsActions = reshort("Products", {
+  customFailurePayload: (payload) => payload
+});
+
+productsActions("fail", {test: "error"})
+// {
+//    type: "GET_PRODUCTS_FAILURE",
+//    test: "error"
+// }
+```
 
 #### namespace (String = "PRODUCTS")
 Add the defined namespace to the constant of the action.
