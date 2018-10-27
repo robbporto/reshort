@@ -4,45 +4,28 @@ const checkIfOptionExists = (options, property) =>
   !!(options && options[property]) && options[property];
 
 const mountRequestConstant = (name, options) => {
-  if (checkIfOptionExists(options, "prefix")) {
-    const { prefix } = options;
+  const namespace = checkIfOptionExists(options, "namespace")
+    ? `${options.namespace}/`
+    : "";
+  const prefix = checkIfOptionExists(options, "prefix")
+    ? `${options.prefix}_`
+    : "GET_";
 
-    return `${prefix}_${upperCase(name)}`;
-  }
-
-  return `GET_${upperCase(name)}`;
+  return `${namespace}${prefix}${upperCase(name)}`;
 };
 
 const mountSuccessOrFailureConstants = (name, options, suffix, constant) => {
-  if (
-    checkIfOptionExists(options, "prefix") &&
-    !checkIfOptionExists(options, suffix)
-  ) {
-    const { prefix } = options;
+  const namespace = checkIfOptionExists(options, "namespace")
+    ? `${options.namespace}/`
+    : "";
+  const prefix = checkIfOptionExists(options, "prefix")
+    ? `${options.prefix}_`
+    : "GET_";
+  const optionSuffix = checkIfOptionExists(options, suffix)
+    ? `_${options[suffix]}`
+    : `_${constant}`;
 
-    return `${prefix}_${upperCase(name)}_${constant}`;
-  }
-
-  if (
-    checkIfOptionExists(options, "prefix") &&
-    checkIfOptionExists(options, suffix)
-  ) {
-    const { prefix } = options;
-    const optionsSuffix = options[suffix];
-
-    return `${prefix}_${upperCase(name)}_${optionsSuffix}`;
-  }
-
-  if (
-    !checkIfOptionExists(options, "prefix") &&
-    checkIfOptionExists(options, suffix)
-  ) {
-    const optionsSuffix = options[suffix];
-
-    return `GET_${upperCase(name)}_${optionsSuffix}`;
-  }
-
-  return `GET_${upperCase(name)}_${constant}`;
+  return `${namespace}${prefix}${upperCase(name)}${optionSuffix}`;
 };
 
 const mountConstant = (name, type, options) => {

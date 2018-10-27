@@ -194,6 +194,20 @@ productsActions("fail", {test: "error"})
 // }
 ```
 
+#### namespace (String = "PRODUCTS")
+Add the defined namespace to the constant of the action.
+```js
+const productsActions = reshort("Items", {
+  namespace: "PRODUCTS"
+});
+
+productsActions("request", {test: "namespace"})
+// {
+//   type: "PRODUCTS/GET_ITEMS",
+//   payload: { test: "namespace" }
+// }
+```
+
 ## License
 
 MIT © [Robson Porto](https://github.com/robbporto)
